@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1246,7 +1246,7 @@ void RB_SurfaceAnim( mdsSurface_t *surface ) {
 
 	tess.numVertexes += render_count;
 
-	pIndexes = &tess.indexes[baseIndex];
+	pIndexes = (int *)&tess.indexes[baseIndex];
 
 //DBG_SHOWTIME
 
@@ -1373,7 +1373,7 @@ void RB_SurfaceAnim( mdsSurface_t *surface ) {
 			qglBegin( GL_LINES );
 			qglColor3f( .0,.0,.8 );
 
-			pIndexes = &tess.indexes[oldIndexes];
+			pIndexes = (int*)&tess.indexes[oldIndexes];
 			for ( j = 0; j < render_indexes / 3; j++, pIndexes += 3 ) {
 				qglVertex3fv( tempVert + 4 * pIndexes[0] );
 				qglVertex3fv( tempVert + 4 * pIndexes[1] );
