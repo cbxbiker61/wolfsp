@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -2431,7 +2431,9 @@ void R_DeleteTextures( void ) {
 	// done.
 
 	memset( glState.currenttextures, 0, sizeof( glState.currenttextures ) );
+#ifndef qglBindTexture
 	if ( qglBindTexture ) {
+#endif
 		if ( qglActiveTextureARB ) {
 			GL_SelectTexture( 1 );
 			qglBindTexture( GL_TEXTURE_2D, 0 );
@@ -2440,7 +2442,9 @@ void R_DeleteTextures( void ) {
 		} else {
 			qglBindTexture( GL_TEXTURE_2D, 0 );
 		}
+#ifndef qglBindTexture
 	}
+#endif
 }
 
 /*
@@ -3504,7 +3508,9 @@ void R_PurgeImage( image_t *image ) {
 	R_CacheImageFree( image );
 
 	memset( glState.currenttextures, 0, sizeof( glState.currenttextures ) );
+#ifndef qglBindTexture
 	if ( qglBindTexture ) {
+#endif
 		if ( qglActiveTextureARB ) {
 			GL_SelectTexture( 1 );
 			qglBindTexture( GL_TEXTURE_2D, 0 );
@@ -3513,7 +3519,9 @@ void R_PurgeImage( image_t *image ) {
 		} else {
 			qglBindTexture( GL_TEXTURE_2D, 0 );
 		}
+#ifndef qglBindTexture
 	}
+#endif
 }
 
 
@@ -3582,7 +3590,9 @@ void R_BackupImages( void ) {
 	tr.numImages = 0;
 
 	memset( glState.currenttextures, 0, sizeof( glState.currenttextures ) );
+#ifndef qglBindTexture
 	if ( qglBindTexture ) {
+#endif
 		if ( qglActiveTextureARB ) {
 			GL_SelectTexture( 1 );
 			qglBindTexture( GL_TEXTURE_2D, 0 );
@@ -3591,7 +3601,9 @@ void R_BackupImages( void ) {
 		} else {
 			qglBindTexture( GL_TEXTURE_2D, 0 );
 		}
+#ifndef qglBindTexture
 	}
+#endif
 }
 
 /*
@@ -3716,3 +3728,4 @@ void R_LoadCacheImages( void ) {
 }
 // done.
 //==========================================================================================
+
