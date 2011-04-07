@@ -1207,26 +1207,26 @@ OBJ = $(WOLFOBJ) $(WOLFPOBJ) $(WOLFDOBJ) \
 TOOLSOBJ = $(LBURGOBJ) $(WOLFCPPOBJ) $(WOLFRCCOBJ) $(WOLFLCCOBJ) $(WOLFASMOBJ)
 
 
-copyfiles: release
+copyfiles: debug
 	@if [ ! -d $(COPYDIR)/main ]; then echo "You need to set COPYDIR to where your RTCW data is!"; fi
 	-$(MKDIR) -p -m 0755 $(COPYDIR)/main
 
 ifneq ($(BUILD_CLIENT),0)
-	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/wolfsp$(FULLBINEXT) $(COPYBINDIR)/wolfsp$(FULLBINEXT)
+	$(INSTALL) -m 0755 $(BD)/wolfsp$(FULLBINEXT) $(COPYBINDIR)/wolfsp$(FULLBINEXT)
 endif
 
 ifneq ($(BUILD_SERVER),0)
-	@if [ -f $(BR)/wolfspded$(FULLBINEXT) ]; then \
-		$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/wolfspded$(FULLBINEXT) $(COPYBINDIR)/wolfspded$(FULLBINEXT); \
+	@if [ -f $(BD)/wolfspded$(FULLBINEXT) ]; then \
+		$(INSTALL) -m 0755 $(BD)/wolfspded$(FULLBINEXT) $(COPYBINDIR)/wolfspded$(FULLBINEXT); \
 	fi
 endif
 
 ifneq ($(BUILD_GAME_SO),0)
-	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/main/cgame$(SHLIBNAME) \
+	$(INSTALL) -m 0755 $(BD)/main/cgame$(SHLIBNAME) \
 					$(COPYDIR)/main/.
-	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/main/qagame$(SHLIBNAME) \
+	$(INSTALL) -m 0755 $(BD)/main/qagame$(SHLIBNAME) \
 					$(COPYDIR)/main/.
-	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/main/ui$(SHLIBNAME) \
+	$(INSTALL) -m 0755 $(BD)/main/ui$(SHLIBNAME) \
 					$(COPYDIR)/main/.
 endif
 
