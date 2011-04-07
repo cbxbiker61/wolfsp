@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1329,7 +1329,7 @@ the K_* names are matched up.
 to be configured even if they don't have defined names.
 ===================
 */
-int Key_StringToKeynum( char *str ) {
+int Key_StringToKeynum( const char *str ) {
 	keyname_t   *kn;
 
 	if ( !str || !str[0] ) {
@@ -1618,48 +1618,51 @@ void Key_Bindlist_f( void ) {
 /*
  ===================
  CL_ParseBinding
- 
+
  Execute the commands in the bind string
  ===================
  */
 void CL_ParseBinding( int key, qboolean down, unsigned time )
 {
-        char buf[ MAX_STRING_CHARS ], *p = buf, *end;
-     
-        if( !keys[key].binding || !keys[key].binding[0] )
-                return;
-        Q_strncpyz( buf, keys[key].binding, sizeof( buf ) ); 
-     
-        while( 1 )
-        {    
-                while( isspace( *p ) )
-                        p++; 
-                end = strchr( p, ';' );
-                if( end )
-                        *end = '\0';
-                if( *p == '+' )
-                {    
-                        // button commands add keynum and time as parameters
-                        // so that multiple sources can be discriminated and
-                        // subframe corrected
-                        char cmd[1024];
-                        Com_sprintf( cmd, sizeof( cmd ), "%c%s %d %d\n",
-                                                ( down ) ? '+' : '-', p + 1, key, time );
-                        Cbuf_AddText( cmd );
-                }    
-                else if( down )
-                {    
-                        // normal commands only execute on key press
-                        Cbuf_AddText( p ); 
-                        Cbuf_AddText( "\n" );
-                }    
-                if( !end )
-                        break;
-                p = end + 1; 
-        }    
+	char buf[ MAX_STRING_CHARS ], *p = buf, *end;
+
+	if( !keys[key].binding || !keys[key].binding[0] )
+		return;
+
+	Q_strncpyz( buf, keys[key].binding, sizeof( buf ) );
+
+	while( 1 )
+	{
+		while( isspace( *p ) )
+			p++;
+
+		end = strchr( p, ';' );
+
+		if( end )
+			*end = '\0';
+
+		if( *p == '+' )
+		{
+			// button commands add keynum and time as parameters
+			// so that multiple sources can be discriminated and
+			// subframe corrected
+			char cmd[1024];
+			Com_sprintf( cmd, sizeof( cmd ), "%c%s %d %d\n",
+				( down ) ? '+' : '-', p + 1, key, time );
+				Cbuf_AddText( cmd );
+		}
+		else if( down )
+		{
+			// normal commands only execute on key press
+			Cbuf_AddText( p );
+			Cbuf_AddText( "\n" );
+		}
+
+		if( !end )
+			break;
+		p = end + 1;
+	}
 }
-
-
 
 /*
 ===================
@@ -1905,141 +1908,138 @@ void CL_KeyEvent( int key, qboolean down, unsigned time ) {
 #endif
 void CL_KeyDownEvent( int key, unsigned time )
 {
-        keys[key].down = qtrue;
-        keys[key].repeats++;
-        if( keys[key].repeats == 1 )
-                anykeydown++;
-     
-        if( keys[K_ALT].down && key == K_ENTER )
-        {    
-                Cvar_SetValue( "r_fullscreen",
-                                          !Cvar_VariableIntegerValue( "r_fullscreen" ) ); 
-                return;
-        }    
-     
-        // console key is hardcoded, so the user can never unbind it
-        if( key == K_CONSOLE || ( keys[K_SHIFT].down && key == K_ESCAPE ) )
-        {    
-                Con_ToggleConsole_f ();
-                Key_ClearStates ();
-                return;
-        }    
-     
-     
-        // keys can still be used for bound actions
-        if ( ( key < 128 || key == K_MOUSE1 ) && 
-                ( clc.demoplaying || cls.state == CA_CINEMATIC ) && Key_GetCatcher( ) == 0 ) {
-     
-                if (Cvar_VariableValue ("com_cameraMode") == 0) { 
-                        Cvar_Set ("nextdemo","");
-                        key = K_ESCAPE;
-                }    
-        }    
-     
-        // escape is always handled special
-        if ( key == K_ESCAPE ) {
-                if ( Key_GetCatcher( ) & KEYCATCH_MESSAGE ) {
-                        // clear message mode
-                        Message_Key( key );
-                        return;
-                }    
-     
-                // escape always gets out of CGAME stuff
-                if (Key_GetCatcher( ) & KEYCATCH_CGAME) {
-                        Key_SetCatcher( Key_GetCatcher( ) & ~KEYCATCH_CGAME );
-                        VM_Call (cgvm, CG_EVENT_HANDLING, CGAME_EVENT_NONE);
-                        return;
-                }    
-     
-                if ( !( Key_GetCatcher( ) & KEYCATCH_UI ) ) {
-                        if ( cls.state == CA_ACTIVE && !clc.demoplaying ) {
-                                VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_INGAME );
-                        }    
-                        else if ( cls.state != CA_DISCONNECTED ) {
-                                CL_Disconnect_f();
-                                S_StopAllSounds();
-                                VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_MAIN );
-                        }
-                        return;
-                }
+	keys[key].down = qtrue;
+	keys[key].repeats++;
 
-                VM_Call( uivm, UI_KEY_EVENT, key, qtrue );
-                return;
-        }
+	if( keys[key].repeats == 1 )
+		anykeydown++;
 
-        // distribute the key down event to the apropriate handler
-        if ( Key_GetCatcher( ) & KEYCATCH_CONSOLE ) {
-                Console_Key( key );
-        } else if ( Key_GetCatcher( ) & KEYCATCH_UI ) {
-                if ( uivm ) {
-                        VM_Call( uivm, UI_KEY_EVENT, key, qtrue );
-                }
-        } else if ( Key_GetCatcher( ) & KEYCATCH_CGAME ) {
-                if ( cgvm ) {
-                        VM_Call( cgvm, CG_KEY_EVENT, key, qtrue );
-                }
-        } else if ( Key_GetCatcher( ) & KEYCATCH_MESSAGE ) {
-                Message_Key( key );
-        } else if ( cls.state == CA_DISCONNECTED ) {
-                Console_Key( key );
-        } else {
-                // send the bound action
-                CL_ParseBinding( key, qtrue, time );
-        }
-        return;
+	if( keys[K_ALT].down && key == K_ENTER )
+	{
+		Cvar_SetValue( "r_fullscreen", !Cvar_VariableIntegerValue( "r_fullscreen" ) );
+		return;
+	}
+
+	// console key is hardcoded, so the user can never unbind it
+	if( key == K_CONSOLE || ( keys[K_SHIFT].down && key == K_ESCAPE ) )
+	{
+		Con_ToggleConsole_f ();
+		Key_ClearStates ();
+		return;
+	}
+
+	// keys can still be used for bound actions
+	if ( ( key < 128 || key == K_MOUSE1 ) &&
+			( clc.demoplaying || cls.state == CA_CINEMATIC ) && Key_GetCatcher( ) == 0 ) {
+
+		if ( Cvar_VariableValue ("com_cameraMode") == 0 ) {
+			Cvar_Set ("nextdemo","");
+			key = K_ESCAPE;
+		}
+	}
+
+	// escape is always handled special
+	if ( key == K_ESCAPE ) {
+		if ( Key_GetCatcher( ) & KEYCATCH_MESSAGE ) {
+			// clear message mode
+			Message_Key( key );
+			return;
+		}
+
+		// escape always gets out of CGAME stuff
+		if (Key_GetCatcher( ) & KEYCATCH_CGAME) {
+			Key_SetCatcher( Key_GetCatcher( ) & ~KEYCATCH_CGAME );
+			VM_Call (cgvm, CG_EVENT_HANDLING, CGAME_EVENT_NONE);
+			return;
+		}
+
+		if ( !( Key_GetCatcher( ) & KEYCATCH_UI ) ) {
+			if ( cls.state == CA_ACTIVE && !clc.demoplaying ) {
+				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_INGAME );
+			}
+			else if ( cls.state != CA_DISCONNECTED ) {
+				CL_Disconnect_f();
+				S_StopAllSounds();
+				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_MAIN );
+			}
+			return;
+		}
+
+		VM_Call( uivm, UI_KEY_EVENT, key, qtrue );
+		return;
+	}
+
+	// distribute the key down event to the apropriate handler
+	if ( Key_GetCatcher( ) & KEYCATCH_CONSOLE ) {
+		Console_Key( key );
+	} else if ( Key_GetCatcher( ) & KEYCATCH_UI ) {
+		if ( uivm ) {
+			VM_Call( uivm, UI_KEY_EVENT, key, qtrue );
+		}
+	} else if ( Key_GetCatcher( ) & KEYCATCH_CGAME ) {
+		if ( cgvm ) {
+			VM_Call( cgvm, CG_KEY_EVENT, key, qtrue );
+		}
+	} else if ( Key_GetCatcher( ) & KEYCATCH_MESSAGE ) {
+		Message_Key( key );
+	} else if ( cls.state == CA_DISCONNECTED ) {
+		Console_Key( key );
+	} else {
+		// send the bound action
+		CL_ParseBinding( key, qtrue, time );
+	}
 }
 
 /*
  ===================
  CL_KeyUpEvent
- 
+
  Called by CL_KeyEvent to handle a keyrelease
  ===================
  */
 void CL_KeyUpEvent( int key, unsigned time )
 {
-        keys[key].repeats = 0;
-        keys[key].down = qfalse;
-        anykeydown--;
-        if (anykeydown < 0) {
-                anykeydown = 0;
-        }
+	keys[key].repeats = 0;
+	keys[key].down = qfalse;
+	anykeydown--;
 
-        // don't process key-up events for the console key
-        if ( key == K_CONSOLE || ( key == K_ESCAPE && keys[K_SHIFT].down ) )
-                return;
+	if ( anykeydown < 0 ) {
+		anykeydown = 0;
+	}
 
-        //
-        // key up events only perform actions if the game key binding is
-        // a button command (leading + sign).  These will be processed even in
-        // console mode and menu mode, to keep the character from continuing
-        // an action started before a mode switch.
-        //
-        if( cls.state != CA_DISCONNECTED )
-                CL_ParseBinding( key, qfalse, time );
+	// don't process key-up events for the console key
+	if ( key == K_CONSOLE || ( key == K_ESCAPE && keys[K_SHIFT].down ) )
+		return;
 
-        if ( Key_GetCatcher( ) & KEYCATCH_UI && uivm ) {
-                VM_Call( uivm, UI_KEY_EVENT, key, qfalse );
-        } else if ( Key_GetCatcher( ) & KEYCATCH_CGAME && cgvm ) {
-                VM_Call( cgvm, CG_KEY_EVENT, key, qfalse );
-        }
+	//
+	// key up events only perform actions if the game key binding is
+	// a button command (leading + sign).  These will be processed even in
+	// console mode and menu mode, to keep the character from continuing
+	// an action started before a mode switch.
+	//
+	if( cls.state != CA_DISCONNECTED )
+		CL_ParseBinding( key, qfalse, time );
+
+	if ( Key_GetCatcher( ) & KEYCATCH_UI && uivm ) {
+		VM_Call( uivm, UI_KEY_EVENT, key, qfalse );
+	} else if ( Key_GetCatcher( ) & KEYCATCH_CGAME && cgvm ) {
+		VM_Call( cgvm, CG_KEY_EVENT, key, qfalse );
+	}
 }
 
 /*
  ===================
  CL_KeyEvent
- 
+
  Called by the system for both key up and key down events
  ===================
  */
 void CL_KeyEvent (int key, qboolean down, unsigned time) {
-        if( down )
-                CL_KeyDownEvent( key, time );
-        else
-                CL_KeyUpEvent( key, time );
+	if( down )
+		CL_KeyDownEvent( key, time );
+	else
+		CL_KeyUpEvent( key, time );
 }
-
-
 
 /*
 ===================
