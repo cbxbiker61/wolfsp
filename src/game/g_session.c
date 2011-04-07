@@ -64,7 +64,7 @@ void G_WriteClientSessionData( gclient_t *client ) {
 			client->sess.playerSkin     // DHM - Nerve
 			);
 
-	var = va( "session%i", client - level.clients );
+	var = va( "session%zu", client - level.clients );
 
 	trap_Cvar_Set( var, s );
 }
@@ -80,7 +80,7 @@ void G_ReadSessionData( gclient_t *client ) {
 	char s[MAX_STRING_CHARS];
 	const char  *var;
 
-	var = va( "session%i", client - level.clients );
+	var = va( "session%zu", client - level.clients );
 	trap_Cvar_VariableStringBuffer( var, s, sizeof( s ) );
 
 	sscanf( s, "%i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
