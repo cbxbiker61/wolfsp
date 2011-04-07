@@ -2240,13 +2240,12 @@ CL_RefPrintf
 DLL glue
 ================
 */
-#define MAXPRINTMSG 4096
 void QDECL CL_RefPrintf( int print_level, const char *fmt, ... ) {
 	va_list argptr;
 	char msg[MAXPRINTMSG];
 
 	va_start( argptr,fmt );
-	vsprintf( msg,fmt,argptr );
+	Q_vsnprintf(msg, sizeof(msg), fmt, argptr);
 	va_end( argptr );
 
 	if ( print_level == PRINT_ALL ) {

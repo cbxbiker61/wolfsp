@@ -32,7 +32,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "../qcommon/cm_public.h"
 
-#define MAXPRINTMSG 4096
+#define MAXPRINTMSG 8192
 
 //============================================================================
 
