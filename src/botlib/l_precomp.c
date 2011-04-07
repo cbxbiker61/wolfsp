@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -691,7 +691,11 @@ void PC_AddBuiltinDefines( source_t *source ) {
 int PC_ExpandBuiltinDefine( source_t *source, token_t *deftoken, define_t *define,
 							token_t **firsttoken, token_t **lasttoken ) {
 	token_t *token;
-	unsigned long t;    //	time_t t; //to prevent LCC warning
+#ifdef __LCC__
+	unsigned long t;
+#else
+	time_t t;
+#endif
 	char *curtime;
 
 	token = PC_CopyToken( deftoken );
@@ -3227,3 +3231,4 @@ void PC_CheckOpenSourceHandles( void ) {
 		} //end if
 	} //end for
 } //end of the function PC_CheckOpenSourceHandles
+
