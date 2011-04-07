@@ -3027,7 +3027,7 @@ static qboolean CG_PlayerShadow( centity_t *cent, float *shadowPlane ) {
 		{NULL, 0}
 	};
 
-	shadowParts[0].shader = cgs.media.shadowFootShader;     //DAJ pulled out of initliization
+	shadowParts[0].shader = cgs.media.shadowFootShader;     //DAJ pulled out of initialization
 	shadowParts[1].shader = cgs.media.shadowFootShader;
 	shadowParts[2].shader = cgs.media.shadowTorsoShader;
 	*shadowPlane = 0;
