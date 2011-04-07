@@ -1,10 +1,11 @@
+#pragma once
 /*
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -693,6 +694,8 @@ qboolean FS_ComparePaks( char *neededpaks, int len, qboolean dlstring );
 void FS_Rename( const char *from, const char *to );
 
 void    FS_CopyFileOS(  char *from, char *to ); //DAJ
+char   *FS_BuildOSPath( const char *base, const char *game, const char *qpath );
+qboolean FS_CreatePath( char *OSPath );
 
 /*
 ==============================================================
@@ -712,6 +715,7 @@ typedef struct {
 
 void Field_Clear( field_t *edit );
 void Field_CompleteCommand( field_t *edit );
+void Field_AutoComplete( field_t * );
 
 /*
 ==============================================================
@@ -721,7 +725,7 @@ MISC
 ==============================================================
 */
 
-// returnbed by Sys_GetProcessorId
+// returned by Sys_GetProcessorId
 #define CPUID_GENERIC           0           // any unrecognized processor
 
 #define CPUID_AXP               0x10
@@ -735,7 +739,7 @@ MISC
 
 // fretn - from ioq3
 // returned by Sys_GetProcessorFeatures
-typedef enum 
+typedef enum
 {
   CF_RDTSC      = 1 << 0,
   CF_MMX        = 1 << 1,
@@ -744,7 +748,7 @@ typedef enum
   CF_3DNOW_EXT  = 1 << 4,
   CF_SSE        = 1 << 5,
   CF_SSE2       = 1 << 6,
-  CF_ALTIVEC    = 1 << 7 
+  CF_ALTIVEC    = 1 << 7
 } cpuFeatures_t;
 
 
@@ -989,18 +993,19 @@ typedef struct {
 } sysEvent_t;
 
 sysEvent_t  Sys_GetEvent( void );
+void Com_QueueEvent( int time, sysEventType_t type, int value, int value2, int ptrLength, void *ptr );
 
 // fretn
-typedef enum 
+typedef enum
 {
-        DR_YES = 0, 
-        DR_NO = 1, 
-        DR_OK = 0, 
+        DR_YES = 0,
+        DR_NO = 1,
+        DR_OK = 0,
         DR_CANCEL = 1
 } dialogResult_t;
 
 // fretn
-typedef enum 
+typedef enum
 {
         DT_INFO,
         DT_WARNING,
@@ -1081,6 +1086,9 @@ char    *Sys_DefaultCDPath( void );
 char    *Sys_DefaultBasePath( void );
 char    *Sys_DefaultInstallPath( void );
 char    *Sys_DefaultHomePath( void );
+const char *Sys_Dirname(char *path);
+const char *Sys_Basename(char *path);
+char *Sys_ConsoleInput(void);
 
 char **Sys_ListFiles( const char *directory, const char *extension, char *filter, int *numfiles, qboolean wantsubs );
 void    Sys_FreeFileList( char **list );
@@ -1097,6 +1105,10 @@ void Sys_StartProcess( char *exeName, qboolean doexit );            // NERVE - S
 //int Sys_ShellExecute(char *op, char *file, qboolean doexit, char *params, char *dir);	//----(SA) added
 void Sys_OpenURL( const char *url, qboolean doexit );                     // NERVE - SMF
 int Sys_GetHighQualityCPU();
+
+qboolean Sys_GetPacket( netadr_t *net_from, msg_t *net_message );
+const char *Sys_TempPath(void);
+void Sys_SetEnv(const char *name, const char *value);
 
 /* This is based on the Adaptive Huffman algorithm described in Sayood's Data
  * Compression book.  The ranks are not actually stored, but implicitly defined
@@ -1153,3 +1165,4 @@ extern huffman_t clientHuffTables;
 #define CL_DECODE_START     4
 
 #endif // _QCOMMON_H_
+
