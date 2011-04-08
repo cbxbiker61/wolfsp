@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -666,7 +666,7 @@ void RB_CalcColorFromEntity( unsigned char *dstColors ) {
 void RB_CalcColorFromOneMinusEntity( unsigned char *dstColors ) {
 	int i;
 	int *pColors = ( int * ) dstColors;
-	unsigned char invModulate[3];
+	unsigned char invModulate[4];
 	int c;
 
 	if ( !backEnd.currentEntity ) {
@@ -859,6 +859,8 @@ void RB_CalcFogTexCoords( float *st ) {
 	fog_t       *fog;
 	vec3_t local;
 	vec4_t fogDistanceVector, fogDepthVector;
+
+	INIT_VEC4(fogDepthVector);
 
 	fog = tr.world->fogs + tess.fogNum;
 
@@ -1107,7 +1109,7 @@ void RB_CalcRotateTexCoords( float degsPerSecond, float *st ) {
 #if id386 && !defined(__GNUC__)
 
 long myftol( float f ) {
-        static int tmp; 
+        static int tmp;
         __asm fld f
         __asm fistp tmp
         __asm mov eax, tmp
