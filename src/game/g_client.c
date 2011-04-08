@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1534,7 +1534,7 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 	// don't do the "xxx connected" messages if they were caried over from previous level
 	if ( firstTime ) {
 		// Ridah
-		if ( !ent->r.svFlags & SVF_CASTAI ) {
+		if ( ! ( ent->r.svFlags & SVF_CASTAI ) ) {
 			// done.
 			trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " connected\n\"", client->pers.netname ) );
 		}
@@ -1616,7 +1616,7 @@ void ClientBegin( int clientNum ) {
 
 		if ( g_gametype.integer != GT_TOURNAMENT ) {
 			// Ridah
-			if ( !ent->r.svFlags & SVF_CASTAI ) {
+			if ( ! ( ent->r.svFlags & SVF_CASTAI ) ) {
 				// done.
 				trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
 			}
@@ -1803,11 +1803,11 @@ void ClientSpawn( gentity_t *ent ) {
 		SetWolfSpawnWeapons( client ); // JPW NERVE -- increases stats[STAT_MAX_HEALTH] based on # of medics in game
 	}
 
-        // fretn - give the player some basic stuff
+	// fretn - give the player some basic stuff
 	if ( g_gametype.integer == GT_SINGLE_PLAYER && g_coop.integer)
-        {
-                if ( !Q_stricmp( ent->classname, "player" ) ) 
-                        SetWolfSpawnWeapons( client ); 
+	{
+		if ( ! Q_stricmp( ent->classname, "player" ) )
+			SetWolfSpawnWeapons( client );
 	}
 	// dhm - end
 
@@ -2053,3 +2053,4 @@ void G_RetrieveMoveSpeedsFromClient( int entnum, char *text ) {
 		anim->stepGap = atoi( token );
 	}
 }
+
