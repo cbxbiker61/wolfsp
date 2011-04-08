@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1716,7 +1716,7 @@ static void CG_DrawAreaChat( rectDef_t *rect, int font, float scale, vec4_t colo
 }
 
 const char *CG_GetKillerText() {
-	const unsigned char *s = "";
+	const char *s = "";
 	if ( cg.killerName[0] ) {
 		s = va( "Fragged by %s", cg.killerName );
 	}
@@ -1752,7 +1752,7 @@ static void CG_Draw2ndPlace( rectDef_t *rect, int font, float scale, vec4_t colo
 }
 
 const char *CG_GetGameStatusText() {
-	const unsigned char *s = "";
+	const char *s = "";
 	if ( cgs.gametype < GT_TEAM ) {
 		if ( cg.snap->ps.persistant[PERS_TEAM] != TEAM_SPECTATOR ) {
 			s = va( "%s place with %i",CG_PlaceString( cg.snap->ps.persistant[PERS_RANK] + 1 ),cg.snap->ps.persistant[PERS_SCORE] );
@@ -1800,7 +1800,7 @@ static void CG_Text_Paint_Limit( float *maxX, float x, float y, int font, float 
 	vec4_t newColor;
 	glyphInfo_t *glyph;
 	if ( text ) {
-		const unsigned char *s = text;
+		const char *s = text;
 		float max = *maxX;
 		float useScale;
 
@@ -1827,7 +1827,7 @@ static void CG_Text_Paint_Limit( float *maxX, float x, float y, int font, float 
 		}
 		count = 0;
 		while ( s && *s && count < len ) {
-			glyph = &fnt->glyphs[*s];
+			glyph = &fnt->glyphs[(int)*s];
 			if ( Q_IsColorString( s ) ) {
 				memcpy( newColor, g_color_table[ColorIndex( *( s + 1 ) )], sizeof( newColor ) );
 				newColor[3] = color[3];
