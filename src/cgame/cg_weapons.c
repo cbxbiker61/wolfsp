@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1133,13 +1133,15 @@ void CG_RegisterWeapon( int weaponNum ) {
 		weaponInfo->ammoModel = trap_R_RegisterModel( ammo->world_model[0] );
 	}
 
+	comppath[0] = 0;
+
 	if ( item->world_model[W_FP_MODEL] ) {
 		strcpy( comppath, item->world_model[W_FP_MODEL] );  // first try the fp view weap
 	} else if ( item->world_model[W_TP_MODEL] )                                                                {
 		strcpy( comppath, item->world_model[W_TP_MODEL] );  // not there, use the standard view hand
 
 	}
-	if ( ( !comppath || !cg_drawFPGun.integer ) &&     // then if it didn't find the 1st person one or you are set to not use one
+	if ( ( ! comppath[0] || ! cg_drawFPGun.integer ) &&     // then if it didn't find the 1st person one or you are set to not use one
 		 item->world_model[W_TP_MODEL] ) {
 		strcpy( comppath, item->world_model[W_TP_MODEL] );  // use the standard view hand
 
