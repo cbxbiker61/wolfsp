@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -353,7 +353,7 @@ int Text_Height( const char *text, int font, float scale, int limit ) {
 	float max;
 	glyphInfo_t *glyph;
 	float useScale;
-	const unsigned char *s = text;
+	const char *s = text;
 
 	fontInfo_t *fnt = &uiInfo.uiDC.Assets.textFont;
 	if ( font == UI_FONT_DEFAULT ) {
@@ -383,7 +383,7 @@ int Text_Height( const char *text, int font, float scale, int limit ) {
 				s += 2;
 				continue;
 			} else {
-				glyph = &fnt->glyphs[*s];
+				glyph = &fnt->glyphs[(unsigned char)*s];
 				if ( max < glyph->height ) {
 					max = glyph->height;
 				}
@@ -426,7 +426,7 @@ void Text_Paint( float x, float y, int font, float scale, vec4_t color, const ch
 
 	useScale = scale * fnt->glyphScale;
 	if ( text ) {
-		const unsigned char *s = text;
+		const char *s = text;
 		trap_R_SetColor( color );
 		memcpy( &newColor[0], &color[0], sizeof( vec4_t ) );
 		len = strlen( text );
@@ -435,7 +435,7 @@ void Text_Paint( float x, float y, int font, float scale, vec4_t color, const ch
 		}
 		count = 0;
 		while ( s && *s && count < len ) {
-			glyph = &fnt->glyphs[*s];
+			glyph = &fnt->glyphs[(unsigned char)*s];
 			//int yadj = Assets.textFont.glyphs[text[i]].bottom + Assets.textFont.glyphs[text[i]].top;
 			//float yadj = scale * (Assets.textFont.glyphs[text[i]].imageHeight - Assets.textFont.glyphs[text[i]].height);
 			if ( Q_IsColorString( s ) ) {
@@ -507,7 +507,7 @@ void Text_PaintWithCursor( float x, float y, int font, float scale, vec4_t color
 
 	useScale = scale * fnt->glyphScale;
 	if ( text ) {
-		const unsigned char *s = text;
+		const char *s = text;
 		trap_R_SetColor( color );
 		memcpy( &newColor[0], &color[0], sizeof( vec4_t ) );
 		len = strlen( text );
@@ -517,7 +517,7 @@ void Text_PaintWithCursor( float x, float y, int font, float scale, vec4_t color
 		count = 0;
 		glyph2 = &fnt->glyphs[(unsigned char)cursor];
 		while ( s && *s && count < len ) {
-			glyph = &fnt->glyphs[*s];
+			glyph = &fnt->glyphs[(unsigned char)*s];
 			//int yadj = Assets.textFont.glyphs[text[i]].bottom + Assets.textFont.glyphs[text[i]].top;
 			//float yadj = scale * (Assets.textFont.glyphs[text[i]].imageHeight - Assets.textFont.glyphs[text[i]].height);
 			if ( Q_IsColorString( s ) ) {
@@ -1478,13 +1478,14 @@ static void UI_DrawMapLevelshot( rectDef_t *rect ) {
 	char levelname[64];
 	qhandle_t levelshot = 0;
 
+	levelname[0] = 0;
 	DC->getCVarString( "mapname", levelname, sizeof( levelname ) );
 
-	if ( levelname && levelname[0] != 0 ) {
+	if ( levelname[0] ) {
 		levelshot = trap_R_RegisterShaderNoMip( va( "levelshots/%s.tga", levelname ) );
 	}
 
-	if ( !levelshot ) {
+	if ( ! levelshot ) {
 		levelshot = trap_R_RegisterShaderNoMip( "menu/art/unknownmap" );
 	}
 
@@ -1538,9 +1539,7 @@ void UI_FilledBar( float x, float y, float w, float h, float *startColor, float 
 		if ( endColor ) {
 			endColor[3] *= ui_hudAlpha.value;
 		}
-		if ( backgroundcolor ) {
-			backgroundcolor[3] *= ui_hudAlpha.value;
-		}
+		backgroundcolor[3] *= ui_hudAlpha.value;
 	}
 
 	if ( flags & BAR_LERP_COLOR ) {
@@ -7547,3 +7546,4 @@ static void UI_StartServerRefresh( qboolean full ) {
 	}
 }
 // -NERVE - SMF
+
