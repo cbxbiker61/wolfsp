@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -947,7 +947,7 @@ static void CG_ServerCommand( void ) {
 		int fadeTime = 0;   // default to instant start
 
 		Q_strncpyz( text, CG_Argv( 2 ), MAX_SAY_TEXT );
-		if ( text && strlen( text ) ) {
+		if ( strlen( text ) ) {
 			fadeTime = atoi( text );
 		}
 
@@ -959,7 +959,7 @@ static void CG_ServerCommand( void ) {
 		int fadeTime = 0;   // default to instant start
 
 		Q_strncpyz( text, CG_Argv( 2 ), MAX_SAY_TEXT );
-		if ( text && strlen( text ) ) {
+		if ( strlen( text ) ) {
 			fadeTime = atoi( text );
 		}
 
@@ -971,7 +971,7 @@ static void CG_ServerCommand( void ) {
 		int fadeTime = 0;   // default to instant stop
 
 		Q_strncpyz( text, CG_Argv( 1 ), MAX_SAY_TEXT );
-		if ( text && strlen( text ) ) {
+		if ( strlen( text ) ) {
 			fadeTime = atoi( text );
 		}
 		trap_S_FadeBackgroundTrack( 0.0f, fadeTime, 0 );
@@ -1036,3 +1036,4 @@ void CG_ExecuteNewServerCommands( int latestSequence ) {
 		}
 	}
 }
+
