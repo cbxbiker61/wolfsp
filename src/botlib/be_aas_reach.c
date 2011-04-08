@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -982,6 +982,14 @@ int AAS_Reachability_Step_Barrier_WaterJump_WalkOffLedge( int area1num, int area
 	if ( !AAS_AreaGrounded( area2num ) && !AAS_AreaSwim( area2num ) ) {
 		return qfalse;
 	}
+
+	INIT_VEC3(water_beststart);
+	INIT_VEC3(water_bestend);
+	INIT_VEC3(water_bestnormal);
+	INIT_VEC3(ground_beststart);
+	INIT_VEC3(ground_bestend);
+	INIT_VEC3(ground_bestnormal);
+
 	//
 	area1 = &( *aasworld ).areas[area1num];
 	area2 = &( *aasworld ).areas[area2num];
@@ -2264,6 +2272,9 @@ int AAS_Reachability_Ladder( int area1num, int area2num ) {
 	if ( !AAS_AreaLadder( area1num ) || !AAS_AreaLadder( area2num ) ) {
 		return qfalse;
 	}
+
+	INIT_VEC3(lowestpoint);
+
 	//
 	sv_jumpvel = aassettings.sv_jumpvel;
 	//maximum height a player can jump with the given initial z velocity
@@ -4478,3 +4489,4 @@ void AAS_InitReachability( void ) {
 	//
 	AAS_SetWeaponJumpAreaFlags();
 } //end of the function AAS_InitReachable
+
