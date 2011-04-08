@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1108,6 +1108,8 @@ void AICast_PredictMovement( cast_state_t *cs, int numframes, float frametime, a
 	gentity_t   *ent = &g_entities[cs->entityNum];
 	bot_input_t bi;
 
+	INIT_VEC3(startHitVec);
+
 //int pretime = Sys_MilliSeconds();
 //G_Printf("PredictMovement: %f duration, %i frames\n", frametime, numframes );
 
@@ -1250,6 +1252,9 @@ qboolean AICast_GetAvoid( cast_state_t *cs, bot_goal_t *goal, vec3_t outpos, qbo
 	qboolean averting = qfalse;
 	float maxYaw, simTime;
 	static int lastTime;
+
+	INIT_VEC3(bestpos);
+
 	//
 	// if we are in the air, no chance of avoiding
 	if ( cs->bs->cur_ps.groundEntityNum == ENTITYNUM_NONE && g_entities[cs->entityNum].waterlevel <= 1 ) {
@@ -1753,3 +1758,4 @@ void AICast_IdleReload( cast_state_t *cs ) {
 	//
 	trap_EA_Reload( cs->entityNum );
 }
+
