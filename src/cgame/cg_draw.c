@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1934,10 +1934,10 @@ for a few moments
 ==============
 */
 void CG_CenterPrint( const char *str, int y, int charWidth ) {
-	unsigned char   *s;
+	const char   *s;
 
 //----(SA)	added translation lookup
-	Q_strncpyz( cg.centerPrint, CG_translateString( (char*)str ), sizeof( cg.centerPrint ) );
+	Q_strncpyz( cg.centerPrint, CG_translateString( str ), sizeof( cg.centerPrint ) );
 //----(SA)	end
 
 
@@ -1967,7 +1967,7 @@ CG_DrawCenterString
 ===================
 */
 static void CG_DrawCenterString( void ) {
-	char    *start;
+	const char    *start;
 	int l;
 	int x, y, w;
 	float   *color;

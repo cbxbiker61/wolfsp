@@ -1,10 +1,11 @@
+#pragma once
 /*
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -840,7 +841,7 @@ typedef struct {
 	int centerPrintTime;
 	int centerPrintCharWidth;
 	int centerPrintY;
-	unsigned char centerPrint[1024];
+	char centerPrint[1024];
 	int centerPrintLines;
 
 	// fade in/out
@@ -2460,3 +2461,4 @@ void        CG_FreeCamera( int camNum );
 void CG_StartShakeCamera( float p, int duration, vec3_t src, float radius );
 
 qboolean    trap_GetModelInfo( int clientNum, char *modelName, animModelInfo_t **modelInfo );
+
