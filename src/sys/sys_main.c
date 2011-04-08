@@ -449,7 +449,21 @@ Used to load a development dll instead of a virtual machine
 
 #ifdef __linux__
 #define DLL_EXT ".so"
+#if defined __i386__
 #define DLL_ARCH "i386"
+#elif defined __x86_64__
+#define DLL_ARCH "x86_64"
+#elif defined __arm__
+#define DLL_ARCH "arm"
+#elif (defined __powerpc__ || defined __ppc__)
+#define DLL_ARCH "ppc"
+#elif defined __axp__
+#define DLL_ARCH "axp"
+#elif defined __mips__
+#define DLL_ARCH "mips"
+#else
+#error Unknown arch
+#endif
 #endif
 #ifdef MACOS_X
 #define DLL_EXT ".dylib"

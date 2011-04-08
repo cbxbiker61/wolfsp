@@ -543,7 +543,7 @@ void Sys_ErrorDialog( const char *error )
 Sys_ZenityCommand
 ==============
 */
-static int Sys_ZenityCommand( dialogType_t type, const char *message, const char *title )	
+static int Sys_ZenityCommand( dialogType_t type, const char *message, const char *title )
 {
 	const char *options = "";
 	char       command[ 1024 ];
@@ -783,6 +783,10 @@ qboolean Sys_PIDIsRunning( int pid )
 char* Sys_GetDLLName( const char *name ) {
 #if defined __i386__
         return va( "%s.mp.i386.so", name );
+#elif defined __x86_64__
+        return va( "%s.mp.x86_64.so", name );
+#elif defined __arm__
+        return va( "%s.mp.arm.so", name );
 #elif defined __powerpc__
         return va( "%s.mp.ppc.so", name );
 #elif defined __axp__
@@ -796,7 +800,7 @@ char* Sys_GetDLLName( const char *name ) {
 #endif
 }
 
-int Sys_GetProcessorId( void ) { 
+int Sys_GetProcessorId( void ) {
         // TODO TTimo add better CPU identification?
         // see Sys_GetHighQualityCPU
         return CPUID_GENERIC;
@@ -823,8 +827,8 @@ EVENT LOOP
 
 sysEvent_t eventQue[MAX_QUED_EVENTS];
 // bk000306: initialize
-int eventHead = 0; 
-int eventTail = 0; 
+int eventHead = 0;
+int eventTail = 0;
 byte sys_packetReceived[MAX_MSGLEN];
 
 /*
@@ -837,7 +841,7 @@ be freed by the game later.
 ================
 */
 void Sys_QueEvent( int time, sysEventType_t type, int value, int value2, int ptrLength, void *ptr ) {
-        sysEvent_t  *ev; 
+        sysEvent_t  *ev;
 
         ev = &eventQue[ eventHead & MASK_QUED_EVENTS ];
 
@@ -847,15 +851,15 @@ void Sys_QueEvent( int time, sysEventType_t type, int value, int value2, int ptr
                 // we are discarding an event, but don't leak memory
                 if ( ev->evPtr ) {
                         Z_Free( ev->evPtr );
-                }    
+                }
                 eventTail++;
-        }    
+        }
 
         eventHead++;
 
         if ( time == 0 ) {
                 time = Sys_Milliseconds();
-        }    
+        }
 
         ev->evTime = time;
         ev->evType = type;
@@ -944,7 +948,7 @@ void Sys_EndStreamedFile( fileHandle_t f ) {
 }
 
 int Sys_StreamedRead( void *buffer, int size, int count, fileHandle_t f ) {
-        return FS_Read( buffer, size * count, f ); 
+        return FS_Read( buffer, size * count, f );
 }
 
 void Sys_StreamSeek( fileHandle_t f, int offset, int origin ) {
@@ -955,11 +959,11 @@ void Sys_StreamSeek( fileHandle_t f, int offset, int origin ) {
 static char cdPath[MAX_OSPATH];
 
 
-void Sys_SetDefaultCDPath( const char *path ) { 
+void Sys_SetDefaultCDPath( const char *path ) {
         Q_strncpyz( cdPath, path, sizeof( cdPath ) );
 }
 
-char *Sys_DefaultCDPath( void ) { 
+char *Sys_DefaultCDPath( void ) {
         return cdPath;
 }
 
@@ -967,10 +971,10 @@ void *Sys_InitializeCriticalSection() {
         return (void *)-1;
 }
 
-void Sys_EnterCriticalSection( void *ptr ) { 
+void Sys_EnterCriticalSection( void *ptr ) {
 }
 
-void Sys_LeaveCriticalSection( void *ptr ) { 
+void Sys_LeaveCriticalSection( void *ptr ) {
 }
 
 void Sys_BeginProfiling( void ) {
@@ -991,11 +995,11 @@ void Sys_Chmod( char *file, int mode ) {
         if ( stat( file, &s_buf ) != 0 ) {
                 Com_Printf( "stat('%s')  failed: errno %d\n", file, errno );
                 return;
-        }    
+        }
         perm = s_buf.st_mode | mode;
         if ( chmod( file, perm ) != 0 ) {
                 Com_Printf( "chmod('%s', %d) failed: errno %d\n", file, perm, errno );
-        }    
+        }
         Com_DPrintf( "chmod +%d '%s'\n", mode, file );
 }
 
@@ -1020,21 +1024,21 @@ UGLY HACK:
 */
 void Sys_DoStartProcess( char *cmdline ) {
         switch ( fork() )
-        {    
-        case - 1: 
+        {
+        case - 1:
                 // main thread
                 break;
         case 0:
                 if ( strchr( cmdline, ' ' ) ) {
                         system( cmdline );
-                } else 
-                {    
+                } else
+                {
                         execl( cmdline, cmdline, NULL );
-                        printf( "execl failed: %s\n", strerror( errno ) ); 
-                }    
-                _exit( 0 ); 
+                        printf( "execl failed: %s\n", strerror( errno ) );
+                }
+                _exit( 0 );
                 break;
-        }    
+        }
 }
 
 /*
@@ -1053,7 +1057,7 @@ void Sys_StartProcess( char *cmdline, qboolean doexit ) {
                 Q_strncpyz( exit_cmdline, cmdline, MAX_CMD );
                 Cbuf_ExecuteText( EXEC_APPEND, "quit\n" );
                 return;
-        }    
+        }
 
         Com_DPrintf( "Sys_StartProcess %s\n", cmdline );
         Sys_DoStartProcess( cmdline );
@@ -1097,9 +1101,9 @@ void Sys_OpenURL( const char *url, qboolean doexit ) {
                                 Com_Printf( "Can't find script '%s' to open requested URL (use +set developer 1 for more verbosity)\n", fname );
                                 // we won't quit
                                 return;
-                        }    
-                }    
-        }    
+                        }
+                }
+        }
 
         Com_DPrintf( "URL script: %s\n", fn );
 
