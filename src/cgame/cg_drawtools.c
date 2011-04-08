@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -145,9 +145,7 @@ void CG_FilledBar( float x, float y, float w, float h, const float *startColorIn
 		if ( endColor ) {
 			endColor[3] *= cg_hudAlpha.value;
 		}
-		if ( backgroundcolor ) {
-			backgroundcolor[3] *= cg_hudAlpha.value;
-		}
+		backgroundcolor[3] *= cg_hudAlpha.value;
 	}
 
 	if ( flags & BAR_LERP_COLOR ) {
@@ -373,7 +371,7 @@ Coordinates are at 640 by 480 virtual resolution
 void CG_DrawStringExt( int x, int y, const char *string, const float *setColor,
 					   qboolean forceColor, qboolean shadow, int charWidth, int charHeight, int maxChars ) {
 	vec4_t color;
-	const unsigned char *s;
+	const char *s;
 	int xx;
 	int cnt;
 
@@ -436,7 +434,7 @@ Coordinates are at 640 by 480 virtual resolution
 void CG_DrawStringExt2( int x, int y, const char *string, const float *setColor,
 						qboolean forceColor, qboolean shadow, int charWidth, int charHeight, int maxChars ) {
 	vec4_t color;
-	const unsigned char *s;
+	const char *s;
 	int xx;
 	int cnt;
 
@@ -499,7 +497,7 @@ Coordinates are at 640 by 480 virtual resolution
 void CG_DrawStringExt3( int x, int y, const char *string, const float *setColor,
 						qboolean forceColor, qboolean shadow, int charWidth, int charHeight, int maxChars ) {
 	vec4_t color;
-	const unsigned char *s;
+	const char *s;
 	int xx;
 	int cnt;
 
@@ -1280,18 +1278,4 @@ void UI_DrawProportionalString( int x, int y, const char* str, int style, vec4_t
 
 	UI_DrawProportionalString2( x, y, str, color, sizeScale, cgs.media.charsetProp );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
