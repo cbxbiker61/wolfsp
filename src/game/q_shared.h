@@ -1,10 +1,11 @@
+#pragma once
 /*
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -438,6 +439,8 @@ typedef vec_t vec2_t[2];
 typedef vec_t vec3_t[3];
 typedef vec_t vec4_t[4];
 typedef vec_t vec5_t[5];
+#define INIT_VEC3(v) { v[0] = v[1] = v[2] = 0.0; }
+#define INIT_VEC4(v) { v[0] = v[1] = v[2] = v[3] = 0.0; }
 
 typedef int fixed4_t;
 typedef int fixed8_t;
@@ -1582,3 +1585,4 @@ int Com_HexStrToInt( const char *str );
 const char      *Q_stristr( const char *s, const char *find);
 
 #endif  // __Q_SHARED_H
+

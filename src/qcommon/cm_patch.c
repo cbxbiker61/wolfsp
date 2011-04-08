@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1397,11 +1397,13 @@ void CM_TraceThroughPatchCollide( traceWork_t *tw, const struct patchCollide_s *
 	float offset, enterFrac, leaveFrac, t;
 	patchPlane_t *planes;
 	facet_t *facet;
-	float plane[4], bestplane[4];
+	vec4_t plane, bestplane;
 	vec3_t startp, endp;
 #ifndef BSPC
 	static cvar_t *cv;
 #endif //BSPC
+
+	INIT_VEC4(bestplane);
 
 	if ( tw->isPoint ) {
 		CM_TracePointThroughPatchCollide( tw, pc );
@@ -1781,3 +1783,4 @@ void CM_DrawDebugSurface( void ( *drawPoly )( int color, int numPoints, float *p
 	drawPoly( 4, v[0] );
 #endif
 }
+
