@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -179,7 +179,9 @@ static void R_LoadLightmaps( lump_t *l ) {
 				float g = buf_p[j * 3 + 1];
 				float b = buf_p[j * 3 + 2];
 				float intensity;
-				float out[3];
+				vec3_t out;
+
+				INIT_VEC3(out);
 
 				intensity = 0.33f * r + 0.685f * g + 0.063f * b;
 
