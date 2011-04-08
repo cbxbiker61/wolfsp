@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein multiplayer GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein multiplayer GPL Source Code (RTCW MP Source Code).  
+This file is part of the Return to Castle Wolfenstein multiplayer GPL Source Code (RTCW MP Source Code).
 
 RTCW MP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -317,7 +317,7 @@ locals from sp
 
 int QDECL VM_Call( vm_t *vm, int callnum, ... ) {
 	vm_t    *oldVM;
-        int     r;
+	int     r = 0;
 	//rcg010207 see dissertation at top of VM_DllSyscall() in this file.
 #if ( ( defined __linux__ ) && ( defined __powerpc__ ) ) || ( defined MACOS_X )
 	int i;
@@ -369,3 +369,4 @@ int QDECL VM_Call( vm_t *vm, int callnum, ... ) {
 }
 
 //=================================================================
+
