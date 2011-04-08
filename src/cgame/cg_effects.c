@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -524,6 +524,8 @@ void CG_LoseHat( centity_t *cent, vec3_t dir ) {
 //	int i, count, tagIndex, gibIndex;
 	int tagIndex;
 	vec3_t origin, velocity;
+
+	INIT_VEC3(origin);
 
 	clientNum = cent->currentState.clientNum;
 	if ( clientNum < 0 || clientNum >= MAX_CLIENTS ) {
@@ -1703,6 +1705,4 @@ void CG_RumbleEfx( float pitch, float yaw ) {
 	// set the recoil
 	cg.recoilPitch -= pitchRecoilAdd;
 }
-
-
 
