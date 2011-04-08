@@ -811,7 +811,7 @@ typedef struct {
 
 
 	// information screen text during loading
-	unsigned char infoScreenText[MAX_STRING_CHARS];
+	char infoScreenText[MAX_STRING_CHARS];
 
 	// scoreboard
 	int scoresRequestTime;
