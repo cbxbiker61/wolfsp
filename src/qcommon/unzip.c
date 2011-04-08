@@ -3069,6 +3069,7 @@ static int huft_build(uInt *b, uInt n, uInt s, const uInt *d, const uInt *e, inf
   int y;                        /* number of dummy codes added */
   uInt z;                       /* number of entries in current table */
 
+  memset(&r, 0, sizeof(r));
 
   /* Generate counts for each bit length */
   p = c;
