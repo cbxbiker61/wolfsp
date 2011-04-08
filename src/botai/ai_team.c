@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -545,7 +545,7 @@ void BotTeamAI( bot_state_t *bs ) {
 			trap_BotEnterChat( bs->cs, bs->client, CHAT_TEAM );
 			ClientName( bs->client, netname, sizeof( netname ) );
 			strncpy( bs->teamleader, netname, sizeof( bs->teamleader ) );
-			bs->teamleader[sizeof( bs->teamleader )] = '\0';
+			bs->teamleader[sizeof( bs->teamleader ) - 1] = '\0';
 			bs->becometeamleader_time = 0;
 		}
 		return;
@@ -608,5 +608,4 @@ void BotTeamAI( bot_state_t *bs ) {
 	}
 	}
 }
-
 
