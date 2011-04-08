@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -767,7 +767,7 @@ void S_ThreadStartSoundEx( vec3_t origin, int entityNum, int entchannel, sfxHand
 //----(SA)	end
 
 	if ( !ch ) {
-		ch = s_channels;
+		ch = &s_channels[0];
 
 		oldest = sfx->lastTimeUsed;
 		for ( i = 0 ; i < MAX_CHANNELS ; i++, ch++ ) {
@@ -781,7 +781,7 @@ void S_ThreadStartSoundEx( vec3_t origin, int entityNum, int entchannel, sfxHand
 			}
 		}
 		if ( chosen == -1 ) {
-			ch = s_channels;
+			ch = &s_channels[0];
 			for ( i = 0 ; i < MAX_CHANNELS ; i++, ch++ ) {
 				if ( ch->entnum != listener_number && ch->allocTime < oldest && ch->entchannel != CHAN_ANNOUNCER ) {
 					oldest = ch->allocTime;
@@ -789,7 +789,8 @@ void S_ThreadStartSoundEx( vec3_t origin, int entityNum, int entchannel, sfxHand
 				}
 			}
 			if ( chosen == -1 ) {
-				if ( ch->entnum == listener_number ) {
+				if ( (--ch)->entnum == listener_number ) {
+					ch = &s_channels[0];
 					for ( i = 0 ; i < MAX_CHANNELS ; i++, ch++ ) {
 						if ( ch->allocTime < oldest ) {
 							oldest = ch->allocTime;
