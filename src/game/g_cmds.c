@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -89,23 +89,21 @@ Starts the coop game
 ==================
 */
 void Cmd_PlayerStart_f( gentity_t *ent ) {
-        gentity_t *player;
+	gentity_t *player;
 
-        if ( !g_coop.integer )
-                return;
+	if ( ! g_coop.integer )
+		return;
 
-        player = AICast_FindEntityForName( "player" );
-        if ( player ) {
-                char filename[MAX_QPATH];
-                char mapname[MAX_QPATH];
+	player = AICast_FindEntityForName( "player" );
 
-                AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "playerstart", "" );
+	if ( player ) {
+		AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "playerstart", "" );
 
-                // now let it think
-                AICast_CastScriptThink();
+		// now let it think
+		AICast_CastScriptThink();
 
-                //trap_Cvar_Set( "cg_norender", "0" );  // camera has started, render 'on'
-        }            
+		//trap_Cvar_Set( "cg_norender", "0" );  // camera has started, render 'on'
+	}
 }
 
 /*
@@ -2175,3 +2173,4 @@ void ClientCommand( int clientNum ) {
 		trap_SendServerCommand( clientNum, va( "print \"unknown cmd %s\n\"", cmd ) );
 	}
 }
+
