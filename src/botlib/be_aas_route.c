@@ -999,7 +999,7 @@ void AAS_WriteRouteCache( void ) {
 // Changes Globals:		-
 //===========================================================================
 aas_routingcache_t *AAS_ReadCache( fileHandle_t fp ) {
-	int i, size;
+	int size;
 	aas_routingcache_t *cache;
 
 	botimport.FS_Read( &size, sizeof( size ), fp );
@@ -1008,7 +1008,11 @@ aas_routingcache_t *AAS_ReadCache( fileHandle_t fp ) {
 	cache->size = size;
 	botimport.FS_Read( (unsigned char *)cache + sizeof( size ), size - sizeof( size ), fp );
 
-	if ( 1 != LittleLong( 1 ) ) {
+#ifdef Q3_BIG_ENDIAN
+	{
+		// ttMax is miscalculated on 64bit, so if you have a 64bit big-endian machine fix it
+		int ttMax = ( size - sizeof( aas_routingcache_t ) ) / 3 + 1;
+		int i;
 		cache->time = LittleFloat( cache->time );
 		cache->cluster = LittleLong( cache->cluster );
 		cache->areanum = LittleLong( cache->areanum );
@@ -1017,18 +1021,17 @@ aas_routingcache_t *AAS_ReadCache( fileHandle_t fp ) {
 		cache->origin[2] = LittleFloat( cache->origin[2] );
 		cache->starttraveltime = LittleFloat( cache->starttraveltime );
 		cache->travelflags = LittleLong( cache->travelflags );
+		for ( i = 0; i < ttMax; i++ ) {
+			cache->traveltimes[i] = LittleShort( cache->traveltimes[i] );
+		}
 	}
+#endif
 
 //	cache->reachabilities = (unsigned char *) cache + sizeof(aas_routingcache_t) - sizeof(unsigned short) +
 //		(size - sizeof(aas_routingcache_t) + sizeof(unsigned short)) / 3 * 2;
 	cache->reachabilities = (unsigned char *) cache + sizeof( aas_routingcache_t ) +
 							( ( size - sizeof( aas_routingcache_t ) ) / 3 ) * 2;
 
-	//DAJ BUGFIX for missing byteswaps for traveltimes
-	size = ( size - sizeof( aas_routingcache_t ) ) / 3 + 1;
-	for ( i = 0; i < size; i++ ) {
-		cache->traveltimes[i] = LittleShort( cache->traveltimes[i] );
-	}
 	return cache;
 } //end of the function AAS_ReadCache
 //===========================================================================
