@@ -1364,7 +1364,7 @@ qsort replacement
 
 =================
 */
-#define SWAP_DRAW_SURF( a,b ) temp = ( (int *)a )[0]; ( (int *)a )[0] = ( (int *)b )[0]; ( (int *)b )[0] = temp; temp = ( (int *)a )[1]; ( (int *)a )[1] = ( (int *)b )[1]; ( (int *)b )[1] = temp;
+#define SWAP_DRAW_SURF( a,b ) temp = ( (intptr_t *)a )[0]; ( (intptr_t *)a )[0] = ( (intptr_t *)b )[0]; ( (intptr_t *)b )[0] = temp; temp = ( (intptr_t *)a )[1]; ( (intptr_t *)a )[1] = ( (intptr_t *)b )[1]; ( (intptr_t *)b )[1] = temp;
 
 /* this parameter defines the cutoff between using quick sort and
    insertion sort for arrays; arrays with lengths shorter or equal to the
@@ -1374,7 +1374,7 @@ qsort replacement
 
 static void shortsort( drawSurf_t *lo, drawSurf_t *hi ) {
 	drawSurf_t  *p, *max;
-	int temp;
+	intptr_t temp;
 
 	while ( hi > lo ) {
 		max = lo;
@@ -1404,9 +1404,9 @@ void qsortFast(
 	unsigned size;              /* size of the sub-array */
 	char *lostk[30], *histk[30];
 	int stkptr;                 /* stack for saving sub-array to be processed */
-	int temp;
+	intptr_t temp;
 
-	if ( sizeof( drawSurf_t ) != 8 ) {
+	if ( sizeof( drawSurf_t ) != (sizeof(intptr_t) * 2) ) {
 		ri.Error( ERR_DROP, "change SWAP_DRAW_SURF macro" );
 	}
 
