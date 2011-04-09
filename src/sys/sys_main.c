@@ -476,7 +476,7 @@ Used to load a development dll instead of a virtual machine
 
 
 void *Sys_LoadDll( const char *name,
-	intptr_t (**entryPoint)(int, ...),
+	intptr_t (**entryPoint)(intptr_t, ...),
 	intptr_t (*systemcalls)(intptr_t, ...) )
 {
 	void  *libHandle;

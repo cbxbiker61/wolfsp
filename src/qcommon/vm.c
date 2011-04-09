@@ -318,12 +318,6 @@ locals from sp
 intptr_t QDECL VM_Call( vm_t *vm, intptr_t callnum, ... ) {
 	vm_t    *oldVM;
 	intptr_t r = 0;
-	//rcg010207 see dissertation at top of VM_DllSyscall() in this file.
-#if !id386
-	int i;
-	int args[16];
-	va_list ap;
-#endif
 
 	// DHM - Nerve
 #ifdef UPDATE_SERVER
@@ -344,27 +338,26 @@ intptr_t QDECL VM_Call( vm_t *vm, intptr_t callnum, ... ) {
 
 	// if we have a dll loaded, call it directly
 	if ( vm->entryPoint ) {
+		int i;
+		intptr_t args[16];
+		va_list ap;
 		//rcg010207 -  see dissertation at top of VM_DllSyscall() in this file.
-#if !id386
 		va_start( ap, callnum );
-		for ( i = 0; i < sizeof( args ) / sizeof( args[i] ); i++ )
-			args[i] = va_arg( ap, int );
+		for ( i = 0; i < ARRAY_LEN(args); i++ ) {
+			args[i] = va_arg( ap, intptr_t );
+		}
 		va_end( ap );
 
 		r = vm->entryPoint( callnum,  args[0],  args[1],  args[2], args[3],
 							args[4],  args[5],  args[6], args[7],
 							args[8],  args[9], args[10], args[11],
 							args[12], args[13], args[14], args[15] );
-#else // original id code below
-		r = vm->entryPoint( ( &callnum )[0], ( &callnum )[1], ( &callnum )[2], ( &callnum )[3],
-							( &callnum )[4], ( &callnum )[5], ( &callnum )[6], ( &callnum )[7],
-							( &callnum )[8],  ( &callnum )[9],  ( &callnum )[10],  ( &callnum )[11],  ( &callnum )[12] );
-#endif
 	}
 
-	if ( oldVM != NULL ) { // bk001220 - assert(currentVM!=NULL) for oldVM==NULL
+	if ( oldVM ) { // bk001220 - assert(currentVM!=NULL) for oldVM==NULL
 		currentVM = oldVM;
 	}
+
 	return r;
 }
 
