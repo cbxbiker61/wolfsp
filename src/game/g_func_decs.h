@@ -359,14 +359,15 @@ extern int COM_GetCurrentParseLine ( void ) ;
 extern void COM_SetCurrentParseLine ( int line ) ;
 extern void COM_RestoreParseSession ( char * * data_p ) ;
 extern void COM_BeginParseSession ( const char * name ) ;
-extern void Swap_Init ( void ) ;
 extern float FloatNoSwap ( float f ) ;
-extern float FloatSwap ( float f ) ;
 extern qint64 Long64NoSwap ( qint64 ll ) ;
 extern qint64 Long64Swap ( qint64 ll ) ;
 extern int LongNoSwap ( int l ) ;
-extern int LongSwap ( int l ) ;
 extern short ShortNoSwap ( short l ) ;
+#if 0
+extern void Swap_Init ( void ) ;
+extern float FloatSwap ( float f ) ;
+extern int LongSwap ( int l ) ;
 extern short ShortSwap ( short l ) ;
 extern float LittleFloat ( float l ) ;
 extern float BigFloat ( float l ) ;
@@ -376,6 +377,7 @@ extern int LittleLong ( int l ) ;
 extern int BigLong ( int l ) ;
 extern short LittleShort ( short l ) ;
 extern short BigShort ( short l ) ;
+#endif
 extern void COM_BitClear ( int array [ ] , int bitNum ) ;
 extern void COM_BitSet ( int array [ ] , int bitNum ) ;
 extern qboolean COM_BitCheck ( const int array [ ] , int bitNum ) ;

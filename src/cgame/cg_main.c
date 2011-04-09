@@ -56,13 +56,15 @@ This must be the very first function compiled into the .q3vm file
 #if defined( __MACOS__ ) // TTimo: guarding
 #pragma export on
 #endif
-Q_EXPORT int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11  ) {
+Q_EXPORT intptr_t vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11  ) {
 #if defined( __MACOS__ )
 #pragma export off
 #endif
 	switch ( command ) {
+#if id386
 	case CG_GET_TAG:
 		return CG_GetTag( arg0, (char *)arg1, (orientation_t *)arg2 );
+#endif
 	case CG_DRAW_ACTIVE_FRAME:
 		CG_DrawActiveFrame( arg0, arg1, arg2 );
 		return 0;

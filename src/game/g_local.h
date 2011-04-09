@@ -173,7 +173,7 @@ void G_Script_ScriptEvent( gentity_t *ent, char *eventStr, char *params );
 //====================================================================
 
 
-#define CFOFS( x ) ( (int)&( ( (gclient_t *)0 )->x ) )
+#define CFOFS( x ) ( (intptr_t)&( ( (gclient_t *)0 )->x ) )
 
 struct gentity_s {
 	entityState_t s;                // communicated by server to clients
@@ -1079,7 +1079,7 @@ extern level_locals_t level;
 extern gentity_t g_entities[MAX_GENTITIES];
 extern gentity_t       *g_camEnt;
 
-#define FOFS( x ) ( (int)&( ( (gentity_t *)0 )->x ) )
+#define FOFS( x ) ( (intptr_t)&( ( (gentity_t *)0 )->x ) )
 
 extern vmCvar_t g_gametype;
 //fretn

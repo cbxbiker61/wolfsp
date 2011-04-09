@@ -476,11 +476,11 @@ Used to load a development dll instead of a virtual machine
 
 
 void *Sys_LoadDll( const char *name,
-	int (**entryPoint)(int, ...),
-	int (*systemcalls)(int, ...) )
+	intptr_t (**entryPoint)(int, ...),
+	intptr_t (*systemcalls)(intptr_t, ...) )
 {
 	void  *libHandle;
-	void  (*dllEntry)( int (*syscallptr)(int, ...) );
+	void  (*dllEntry)( intptr_t (*syscallptr)(intptr_t, ...) );
 	char  fname[MAX_OSPATH];
 	char  *basepath;
 	char  *homepath;

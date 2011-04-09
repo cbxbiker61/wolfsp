@@ -281,7 +281,7 @@ This must be the very first function compiled into the .q3vm file
 #if defined( __MACOS__ )
 #pragma export on
 #endif
-Q_EXPORT int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6 ) {
+Q_EXPORT intptr_t vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6 ) {
 #if defined( __MACOS__ )
 #pragma export off
 #endif
@@ -293,7 +293,7 @@ Q_EXPORT int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int ar
 		G_ShutdownGame( arg0 );
 		return 0;
 	case GAME_CLIENT_CONNECT:
-		return (int)ClientConnect( arg0, arg1, arg2 );
+		return (intptr_t)ClientConnect( arg0, arg1, arg2 );
 	case GAME_CLIENT_THINK:
 		ClientThink( arg0 );
 		return 0;
@@ -316,6 +316,8 @@ Q_EXPORT int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int ar
 		return ConsoleCommand();
 	case BOTAI_START_FRAME:
 		return BotAIStartFrame( arg0 );
+#if id386
+// These need to be moved into syscall
 		// Ridah, Cast AI
 	case AICAST_VISIBLEFROMPOS:
 		return AICast_VisibleFromPos( (float *)arg0, arg1, (float *)arg2, arg3, arg4 );
@@ -328,6 +330,7 @@ Q_EXPORT int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int ar
 		return 0;
 	case GAME_GETMODELINFO:
 		return G_GetModelInfo( arg0, (char *)arg1, (animModelInfo_t **)arg2 );
+#endif
 	}
 
 	return -1;
