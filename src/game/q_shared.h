@@ -59,6 +59,12 @@ If you have questions concerning this license or the applicable additional terms
   #define Q_snprintf snprintf
 #endif
 
+#ifdef Q3_VM
+typedef int intptr_t;
+#else
+#include <stdint.h>
+#endif
+#define PAD(x,y) (((x)+(y)-1) & ~((y)-1))
 
 #ifdef _WIN32
 
@@ -145,14 +151,6 @@ If you have questions concerning this license or the applicable additional terms
 
 //#pragma intrinsic( memset, memcpy )
 
-#endif
-
-
-// this is the define for determining if we have an asm version of a C function
-#if ( defined _M_IX86 || defined __i386__ ) && !defined __sun__  && !defined __LCC__
-#define id386   1
-#else
-#define id386   0
 #endif
 
 // for windows fastcall option
@@ -252,6 +250,8 @@ void Sys_PumpEvents( void );
 
 #endif
 
+#include "../qcommon/q_platform.h"
+
 //=============================================================
 
 
@@ -261,6 +261,12 @@ typedef enum {qfalse, qtrue}    qboolean;
 #if defined( __MACOS__ )
 #define qboolean int    //DAJ
 #endif
+
+typedef union {
+	float f;
+	int i;
+	unsigned int ui;
+} floatint_t;
 
 typedef int qhandle_t;
 typedef int sfxHandle_t;
@@ -290,6 +296,7 @@ typedef int clipHandle_t;
 #define MAX_QINT            0x7fffffff
 #define MIN_QINT            ( -MAX_QINT - 1 )
 
+#define ARRAY_LEN(x)			(sizeof(x) / sizeof(*(x)))
 
 #ifndef max
 #define max( x, y ) ( ( ( x ) > ( y ) ) ? ( x ) : ( y ) )
