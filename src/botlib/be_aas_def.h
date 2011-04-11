@@ -1,10 +1,11 @@
+#pragma once
 /*
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -126,6 +127,20 @@ typedef struct aas_settings_s
 } aas_settings_t;
 
 //routing cache
+typedef struct
+{
+	int size;                                   //size of the routing cache
+	float time;                                 //last time accessed or updated
+	int cluster;                                //cluster the cache is for
+	int areanum;                                //area the cache is created for
+	vec3_t origin;                              //origin within the area
+	float starttraveltime;                      //travel time to start with
+	int travelflags;                            //combinations of the travel flags
+	uint32_t prev, next;
+	uint32_t reachabilities;                   //reachabilities used for routing
+	unsigned short int traveltimes[1];          //travel time for every area (variable sized)
+} aas_routingcache_disk;
+
 typedef struct aas_routingcache_s
 {
 	int size;                                   //size of the routing cache
